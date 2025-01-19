@@ -1,3 +1,5 @@
+from datetime import datetime
+
 def create_batch(page):
     # Navigate to batch page
     page.goto("https://3rd-eye-ed-mate-qa.mpower-social.com/batches?batchName=")
@@ -7,13 +9,16 @@ def create_batch(page):
     # wait for appear all batch list
     page.wait_for_selector("//button[normalize-space()='Add New Batch']", timeout=10000)
 
+    page.pause()
+
     # Code to create a batch...
 
     ##Click add new batch
     page.locator("//button[normalize-space()='Add New Batch']").click()
 
     ## Give batch name
-    page.locator("//input[@name='name']").fill(input("Enter your batch name: "))
+    # page.locator("//input[@name='name']").fill(input("Enter your batch name: "))
+    page.locator("//input[@name='name']").fill(input("Please enter the value for 'name': "))
 
     # Click the Room input field to open the dropdown
     page.locator("//div[@role='presentation']//div[2]//div[1]//div[1]//div[1]//div[1]//button[1]").click()
@@ -22,7 +27,8 @@ def create_batch(page):
     page.wait_for_selector("//li[@role='option']", timeout=5000)
 
     # Now select the room value (UB50403) from the dropdown
-    page.locator("//li[@role='option' and .//h6[text()='UB50403']]").click()
+    # page.locator("//li[@role='option' and .//h6[text()='UB50403']]").click()
+    page.locator(f"//li[contains(@class, 'MuiAutocomplete-option') and @data-option-index='{int(input("Please enter class; index start from 'zerro': "))}']").click()
 
     ##  Click Teacher
     page.locator("//div[.='Teacher (Optional)']").click()
@@ -31,7 +37,7 @@ def create_batch(page):
     page.wait_for_selector("//li[@role='option']", timeout=5000)
 
     # Now select the Teacher Rumman1
-    page.locator(f"//li[@role='option' and .//h6[text()='{teacher_name}']]").click()
+    page.locator(f"//li[@role='option' and .//h6[text()='{input("Please enter the value for 'teacher name': ")}']]").click()
 
     # Now click grade
     page.locator("//div[.='Grade']").click()
@@ -40,7 +46,9 @@ def create_batch(page):
     page.wait_for_selector("//li[@role='option']", timeout=5000)
 
     # Now select O-level
-    page.locator("//li[normalize-space()='O-Level']").click()
+    # page.locator("//li[normalize-space()='O-Level']").click()
+    page.locator(
+        f"//li[@role='option' and @data-option-index='{int(input("Please enter grade; index start from 'zerro': "))}']").click()
 
     ## Now click curriculumn
     page.locator("//div[.='Curriculum']").click()
@@ -49,7 +57,9 @@ def create_batch(page):
     page.wait_for_selector("//li[@role='option']", timeout=5000)
 
     ## Select curriculumn as Cambridge
-    page.locator("//li[normalize-space()='Cambridge']").click()
+    # page.locator("//li[normalize-space()='Cambridge']").click()
+    page.locator(
+        f"//li[@role='option' and @data-option-index='{int(input("Please enter curriculum; index start from 'zerro': "))}']").click()
 
     ## Click Syllabus
     page.locator("//div[.='Syllabus']").click()
@@ -58,7 +68,9 @@ def create_batch(page):
     page.wait_for_selector("//li[@role='option']", timeout=5000)
 
     ## Select Syllabus IGCSE
-    page.locator("//li[normalize-space()= 'IGCSE']").click()
+    # page.locator("//li[normalize-space()= 'IGCSE']").click()
+    page.locator(
+        f"//li[@role='option' and @data-option-index='{int(input("Please enter syllabus; index start from 'zerro': "))}']").click()
 
     ## Click Course
     page.locator("//div[.='Courses']").click()
@@ -67,13 +79,15 @@ def create_batch(page):
     page.wait_for_selector("//li[@role='option']", timeout=5000)
 
     ## Select Course Chemistry
-    page.locator("//li[normalize-space()= 'Chemistry']").click()
+    # page.locator("//li[normalize-space()= 'Chemistry']").click()
+    page.locator(
+        f"//li[@role='option' and @data-option-index='{int(input("Please enter course; index start from 'zerro': "))}']").click()
 
-    ## Select payment frequency
-    page.locator("//input[@value='ff68ccf9-e895-4b54-a4f7-c9c14e4813bf']").click()
-
-    ## Select price
-    page.locator("//input[@name='price']").fill("2000")
+    # ## Select payment frequency
+    # page.locator("//input[@value='ff68ccf9-e895-4b54-a4f7-c9c14e4813bf']").click()
+    #
+    # ## Select price
+    # page.locator("//input[@name='price']").fill(int(input("Please enter the payment amount:  ")))
 
     ##Select next button
     page.locator("(//button[normalize-space()='Next'])[1]").click()

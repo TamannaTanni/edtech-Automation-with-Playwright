@@ -1,0 +1,6 @@
+# To view saved trace file: playwright show-trace {name of the tracefile with ext & path}
+
+# To run specific pytest file in headed way: pytest --headed {filename with ext & path}
+
+# in codegen console: playwright.$('locator-type~value')
+                                    ('locator-type:attribute')
