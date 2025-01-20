@@ -6,3 +6,23 @@
 
 # in codegen console: playwright.$('locator-type~value')
                                     ('locator-type:attribute')
+
+
+# pytest mark
+    @pytest.mark.skip(reason="tell the reason here") --> to skip a test
+    @pytest.mark.xfail(reason="tell the reason here") --> to mark as already known failed test
+
+# pytest mark cli commands
+    -k --> to run the test using keyword
+    --device="device name" --> to run the test in mobile browser (only iphone)
+    --screenshot --> to take screenshot after every test (=on, off, only-on-failure)
+    --base-url --> to provide base url from command line
+    --tracing -->
+    --slowmo -->
+
+
+
+# pytest fixture:
+    @pytest.fixture(scope="function") --> will run the fixture for every test
+    @pytest.fixture(scope="scope") --> will run the fixture once and all the tests will be executed
+
