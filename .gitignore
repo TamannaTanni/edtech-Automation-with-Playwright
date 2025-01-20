@@ -2,3 +2,4 @@
 __pycache__
 auth_state.json
 .gitignore
+test.py

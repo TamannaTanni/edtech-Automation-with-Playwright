@@ -2,5 +2,7 @@
 
 # To run specific pytest file in headed way: pytest --headed {filename with ext & path}
 
+# Set environment variable to enable debug mood, run the command in terminal: set PWDEBUG=1
+
 # in codegen console: playwright.$('locator-type~value')
                                     ('locator-type:attribute')
