@@ -1,6 +1,7 @@
+import ast
 from datetime import datetime
 
-def create_batch(page):
+def create_batch(page, new_batch_data):
     # Navigate to batch page
     page.goto("https://3rd-eye-ed-mate-qa.mpower-social.com/batches?batchName=")
 
@@ -19,7 +20,8 @@ def create_batch(page):
     ## Give batch name
     # page.locator("//input[@name='name']").fill(input("Enter your batch name: "))
 
-    batch_name = input("Please enter the value for 'name': ")
+    # batch_name = input("Please enter the value for 'name': ")
+    batch_name = new_batch_data["batch_name"]
     page.locator("//input[@name='name']").fill(batch_name)
 
     # Click the Room input field to open the dropdown
@@ -28,9 +30,9 @@ def create_batch(page):
     # Wait for the dropdown options to appear
     page.wait_for_selector("//li[@role='option']", timeout=5000)
 
-    # Now select the room value (UB50403) from the dropdown
-    # page.locator("//li[@role='option' and .//h6[text()='UB50403']]").click()
-    page.locator(f"//li[contains(@class, 'MuiAutocomplete-option') and @data-option-index='{int(input("Please enter class; index start from 'zerro': "))}']").click()
+    # Now select the room value from the dropdown
+    page.locator(f"//li[@role='option' and .//h6[text()='{new_batch_data["room"]}']]").click()
+    # page.locator(f"//li[contains(@class, 'MuiAutocomplete-option') and @data-option-index='{int(input("Please enter class; index start from 'zerro': "))}']").click()
 
 
     ##  Click Teacher
@@ -40,7 +42,7 @@ def create_batch(page):
     page.wait_for_selector("//li[@role='option']", timeout=5000)
 
     # Now select the Teacher
-    page.locator(f"//li[@role='option' and .//h6[text()='{input("Please enter the value for 'teacher name': ")}']]").click()
+    page.locator(f"//li[@role='option' and .//h6[text()='{new_batch_data["teacher_name"]}']]").click()
 
     # Now click grade
     page.locator("//div[.='Grade']").click()
@@ -49,9 +51,9 @@ def create_batch(page):
     page.wait_for_selector("//li[@role='option']", timeout=5000)
 
     # Now select O-level
-    # page.locator("//li[normalize-space()='O-Level']").click()
-    page.locator(
-        f"//li[@role='option' and @data-option-index='{int(input("Please enter grade; index start from 'zerro': "))}']").click()
+    page.locator(f"//li[normalize-space()='{new_batch_data["grade"]}']").click()
+    # page.locator(
+    #     f"//li[@role='option' and @data-option-index='{int(input("Please enter grade; index start from 'zerro': "))}']").click()
 
     ## Now click curriculumn
     page.locator("//div[.='Curriculum']").click()
@@ -60,9 +62,9 @@ def create_batch(page):
     page.wait_for_selector("//li[@role='option']", timeout=5000)
 
     ## Select curriculumn as Cambridge
-    # page.locator("//li[normalize-space()='Cambridge']").click()
-    page.locator(
-        f"//li[@role='option' and @data-option-index='{int(input("Please enter curriculum; index start from 'zerro': "))}']").click()
+    page.locator(f"//li[normalize-space()='{new_batch_data["curriculum"]}']").click()
+    # page.locator(
+    #     f"//li[@role='option' and @data-option-index='{int(input("Please enter curriculum; index start from 'zerro': "))}']").click()
 
     ## Click Syllabus
     page.locator("//div[.='Syllabus']").click()
@@ -71,9 +73,9 @@ def create_batch(page):
     page.wait_for_selector("//li[@role='option']", timeout=5000)
 
     ## Select Syllabus
-    # page.locator("//li[normalize-space()= 'IGCSE']").click()
-    page.locator(
-        f"//li[@role='option' and @data-option-index='{int(input("Please enter syllabus; index start from 'zerro': "))}']").click()
+    page.locator(f"//li[normalize-space()= '{new_batch_data["syllabus"]}']").click()
+    # page.locator(
+    #     f"//li[@role='option' and @data-option-index='{int(input("Please enter syllabus; index start from 'zerro': "))}']").click()
 
     ## Click Course
     page.locator("//div[.='Courses']").click()
@@ -82,9 +84,9 @@ def create_batch(page):
     page.wait_for_selector("//li[@role='option']", timeout=5000)
 
     ## Select Course
-    # page.locator("//li[normalize-space()= 'Chemistry']").click()
-    page.locator(
-        f"//li[@role='option' and @data-option-index='{int(input("Please enter course; index start from 'zerro': "))}']").click()
+    page.locator(f"//li[normalize-space()= '{new_batch_data["course"]}']").click()
+    # page.locator(
+    #     f"//li[@role='option' and @data-option-index='{int(input("Please enter course; index start from 'zerro': "))}']").click()
 
     # ## Select payment frequency
     # page.locator("//input[@value='ff68ccf9-e895-4b54-a4f7-c9c14e4813bf']").click()
@@ -103,6 +105,7 @@ def create_batch(page):
     # page.locator("(//button[@aria-label='Choose date'])[1]").click()
     #
     #  # Get today's date
+
     # today = datetime.now().strftime("%d")  # Get day as a two-digit number (e.g., '21')
     #
     # # Remove leading zero if your calendar uses single-digit days for the first 9 days
@@ -113,11 +116,11 @@ def create_batch(page):
     # page.locator(f"//button[normalize-space()='{today}']").click()
 
     ##Click start date calender button
-    page.locator("label:has-text('Start Date') ~ div input[placeholder='DD/MM/YYYY']").fill(input("Please enter Batch Start Date in format (DD/MM/YYYY) : "))
+    page.locator("label:has-text('Start Date') ~ div input[placeholder='DD/MM/YYYY']").fill(new_batch_data["batch_start_date"])
 
 
     ## Click End Date
-    page.locator("label:has-text('End Date') ~ div input[placeholder='DD/MM/YYYY']").type(input("Please enter Batch End Date in format (DD/MM/YYYY) : "))
+    page.locator("label:has-text('End Date') ~ div input[placeholder='DD/MM/YYYY']").fill(new_batch_data["batch_end_date"])
     page.wait_for_timeout(1000)
 
     ## Click date
@@ -125,15 +128,18 @@ def create_batch(page):
 
     ## Select schedule day
     # days_to_select = ["Mon", "Wed"]
-    selected_days_input = input("Enter the days separated by commas (e.g., Sun, Mon, Tue): ")
+    # selected_days_input = input("Enter the days separated by commas (e.g., Sun, Mon, Tue): ")
+    # Get the value from the CSV (e.g., ["Sat, Sun"])
+    selected_days = new_batch_data["selected_days"]
 
-    # Process the input to create a list of days
-    days_to_select = [day.strip() for day in selected_days_input.split(",")]
+    days_to_select = [day.strip() for day in selected_days.split(",")]
 
     # Print the list for confirmation (optional)
     print("Days to select:", days_to_select)
 
+    # Iterate through the list and use it in the locator
     for day in days_to_select:
+        # Assuming 'page' is your initialized playwright page object
         page.locator(f"input[name='{day}']").check()
 
     ## Same schedule for different days
@@ -143,7 +149,7 @@ def create_batch(page):
     page.locator("h6:has-text('Start Time') ~ div div:has(label:has-text('Hour')) [role='combobox']").click()
 
     # Select the hour "05" from the dropdown
-    page.locator(f"ul[role='listbox'] li[data-value='{input("Please enter class start time - hour value (01 to 12): ")}']").click()
+    page.locator(f"ul[role='listbox'] li[data-value='{new_batch_data["start_time_hour_value"]}']").click()
 
     ## Click minute input field for start time
     page.locator("h6:has-text('Start Time') ~ div div:has(label:has-text('Minute')) [role='combobox']").click()
@@ -152,7 +158,7 @@ def create_batch(page):
     page.wait_for_selector("//li[@role='option']", timeout=5000)
 
     ## Select minute as 20
-    page.locator(f"li[data-value='{input("Please enter class start time - minute value (00 to 55; separated by 5 minutes): ")}']").click()
+    page.locator(f"li[data-value='{new_batch_data["start_time_minute_value"]}']").click()
 
     ## Click am/pm value for start time
     page.locator("h6:has-text('Start Time') ~ div div:has(label:has-text('AM/PM')) [aria-haspopup='listbox']").click()
@@ -161,13 +167,13 @@ def create_batch(page):
     page.wait_for_selector("//li[@role='option']", timeout=5000)
 
     ##Select PM
-    page.locator(f"//li[normalize-space()= '{input("Please enter class start time - AM/PM value: ").upper()}']").click()
+    page.locator(f"//li[normalize-space()= '{new_batch_data["start_time_AM/PM_value"].upper()}']").click()
 
     # Click the "Hour" input field under the "End Time" section
     page.locator("h6:has-text('End Time') ~ div div:has(label:has-text('Hour')) [role='combobox']").click()
 
     # Select the hour "06" from the dropdown
-    page.locator(f"ul[role='listbox'] li[data-value='{input("Please enter class end time - hour value (01 to 12): ")}']").click()
+    page.locator(f"ul[role='listbox'] li[data-value='{new_batch_data["end_time_hour_value"]}']").click()
 
     ## Click minute input field for End time
     page.locator("h6:has-text('End Time') ~ div div:has(label:has-text('Minute')) [role='combobox']").click()
@@ -176,7 +182,7 @@ def create_batch(page):
     page.wait_for_selector("//li[@role='option']", timeout=5000)
 
     ## Select minute as 20
-    page.locator(f"li[data-value='{input("Please enter class end time - minute value (00 to 55; separated by 5 minutes): ")}']").click()
+    page.locator(f"li[data-value='{new_batch_data["end_time_minute_value"]}']").click()
 
     ## Click am/pm value for End time
     page.locator("h6:has-text('End Time') ~ div div:has(label:has-text('AM/PM')) [aria-haspopup='listbox']").click()
@@ -185,7 +191,7 @@ def create_batch(page):
     page.wait_for_selector("//li[@role='option']", timeout=5000)
 
     ##Select PM
-    page.locator(f"//li[normalize-space()= '{input("Please enter class end time - AM/PM value: ").upper()}']").click()
+    page.locator(f"//li[normalize-space()= '{new_batch_data["end_time_AM/PM_value"].upper()}']").click()
 
     ## Scroll to last
     page.evaluate("window.scrollTo(0, document.body.scrollHeight)")

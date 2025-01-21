@@ -16,7 +16,7 @@ def save_auth_state(context, token):
         json.dump(auth_data, f)
     print(f"Authentication state and token saved to {auth_file}.")
 
-def run(playwright):
+def login(playwright):
     # Launch the browser
     browser = playwright.chromium.launch(headless=False)
 
@@ -53,4 +53,4 @@ def run(playwright):
     browser.close()
 
 with sync_playwright() as playwright:
-    run(playwright)
+    login(playwright)
