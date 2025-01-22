@@ -3,7 +3,7 @@ from playwright.sync_api import sync_playwright
 from conftest import load_csv_data
 from dotenv import load_dotenv
 import os
-from studentadd_kf import add_student
+from add_student_without_batch import add_student_without_batch
 from add_admin import add_admin
 from add_teacher import add_teacher
 from create_batch import create_batch
@@ -55,7 +55,9 @@ def test_add_admin_with_csv_data(login_with_saved_state, test_data):
         assert True, f"Admin created successfully for {test_data['admin_name']}."
 
     except Exception as e:
-        pytest.fail(f"Test failed for {test_data['admin_name']}: {e}")
+        pytest.fail(f"Test failed for {test_data['first_name']}: {e}")
+
+    logout(login_with_saved_state)
 
 def test_login_with_newadmin(browser):
     """
@@ -86,18 +88,18 @@ def test_add_teacher_with_csv_data(login_with_saved_state, test_data):
         add_teacher(page, test_data)
 
         # Save the credentials in a global variable
-        new_teacher_credentials['name'] = test_data["name"]
+        new_teacher_credentials['name'] = f'{test_data["first_name"]} {test_data["last_name"]}'
         new_teacher_credentials['username'] = test_data["username"]
         new_teacher_credentials['password'] = test_data["password"]
 
         # Additional validation can be added here if applicable
-        assert True, f"Teacher created successfully for {test_data['teacher_name']}."
+        assert True, f"Teacher created successfully for {test_data['first_name']}."
 
     except Exception as e:
-        pytest.fail(f"Test failed for {test_data['teacher_name']}: {e}")
+        pytest.fail(f"Test failed for {test_data['first_name']}: {e}")
 
 
-@pytest.mark.parametrize("test_data", load_csv_data("new_student_data.csv"))
+@pytest.mark.parametrize("test_data", load_csv_data("new_student_without_batch_data.csv"))
 def test_add_student_with_csv_data(login_with_saved_state, test_data):
     """
         Test student creation using data from CSV.
@@ -108,10 +110,10 @@ def test_add_student_with_csv_data(login_with_saved_state, test_data):
         page = login_with_saved_state
 
         # Perform test cases sequentially
-        add_student(page, test_data)
+        add_student_without_batch(page, test_data)
 
         # Save the credentials in a global variable
-        new_student_credentials['name'] = test_data["name"]
+        new_student_credentials[f'student {test_data["name"]}'] = test_data["name"]
 
         # Additional validation can be added here if applicable
         assert True, f"Student created successfully for {test_data['student_name']}."
@@ -137,8 +139,10 @@ def test_create_batch_with_csv_data( login_with_saved_state, test_data):
         batch_name, teacher_name = create_batch(page, test_data)
 
         # Save the credentials in a global variable
-        new_batch_information['batch_name'] = test_data["batch_name"]
-        new_batch_information['teacher_name'] = test_data["teacher_name"]
+        new_batch_information[test_data["batch_name"]] = {
+            "batch_name": test_data["batch_name"],
+            "teacher_name": test_data["teacher_name"],
+        }
 
         # Additional validation can be added here if applicable
         assert True, f"Service recorded successfully for {test_data['batch_name']}."

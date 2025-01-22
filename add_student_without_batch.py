@@ -1,7 +1,7 @@
 from datetime import datetime
 
 
-def add_student(page, new_admin_data):
+def add_student_without_batch(page, new_student_without_batch_data):
     page.goto("https://3rd-eye-ed-mate-qa.mpower-social.com/batches?batchName=")
 
     page.wait_for_load_state("domcontentloaded")
@@ -16,16 +16,16 @@ def add_student(page, new_admin_data):
     page.locator("//button[normalize-space()='Add New Student']").click()
 
     ## Send values at firstname field
-    page.locator("//input[@name='firstName']").fill("Naim")
+    page.locator("//input[@name='firstName']").fill(new_student_without_batch_data['firstName'])
  
     ## Send values at lastname field
-    page.locator("//input[@name='lastName']").fill("Khan")
+    page.locator("//input[@name='lastName']").fill(new_student_without_batch_data['lastName'])
 
     ## Send values for contact number
-    page.locator("//input[@name='contactNo']").fill("01122330001")
+    page.locator("//input[@name='contactNo']").fill(new_student_without_batch_data['contact_no'])
 
     ## Send value email field
-    page.locator("//input[@name='email']").fill("asd001@gmail.com")
+    page.locator("//input[@name='email']").fill(new_student_without_batch_data['email'])
 
     # ## Select date 
     # page.locator("//button[@aria-label='Choose date']").click()
@@ -42,7 +42,7 @@ def add_student(page, new_admin_data):
     date_input.fill("")  # Clears the field
 
     # Type the full date
-    date_input.type("10/10/2000")    
+    date_input.type(new_student_without_batch_data['dateOfBirth'])
 
     ## Select blood group dropdown
     page.locator("//div[.='Blood Group']").click()
@@ -51,7 +51,7 @@ def add_student(page, new_admin_data):
     page.wait_for_selector("//li[@role='option']", timeout=1000)
 
     ## Select blood group
-    page.locator("//li[normalize-space()= 'O (+ve)']").click()
+    page.locator(f"//li[normalize-space()= '{new_student_without_batch_data['bloodGroup']}']").click()
 
     ##Select Division
     page.locator("//div[.='Division']").click()
@@ -60,16 +60,16 @@ def add_student(page, new_admin_data):
     page.wait_for_selector("//li[@role='option']", timeout=1000)
 
     ## Select division
-    page.locator("//li[normalize-space()= 'DHAKA']").click()
+    page.locator(f"//li[normalize-space()= '{new_student_without_batch_data['division']}']").click()
 
     ## Select district
     page.locator("//div[.='District']").click()
 
     ## Select district
-    page.locator("//li[normalize-space()= 'DHAKA']").click()
+    page.locator(f"//li[normalize-space()= '{new_student_without_batch_data['district']}']").click()
 
     ## Give address
-    page.locator("//textarea[@name='address']").fill("346/6, Lake Circus")
+    page.locator("//textarea[@name='address']").fill(new_student_without_batch_data['address'])
 
     ## Open school dropdown
     page.locator("//div[.='School']").click()
@@ -78,16 +78,16 @@ def add_student(page, new_admin_data):
     page.wait_for_selector("//li[@role='option']", timeout=1000)
 
     ## Give school
-    page.locator("//li[normalize-space()= 'Aga Khan Academy']").click()
+    page.locator(f"//li[normalize-space()= '{new_student_without_batch_data['school']}']").click()
 
     ## Click gender
-    page.locator("//input[@value='female']").click()
+    page.locator(f"//input[@value='{new_student_without_batch_data['gender']}']").click()
 
     ## Give username
-    page.locator("//input[@name='userName']").fill("edmojo111")
+    page.locator("//input[@name='userName']").fill(new_student_without_batch_data['userName'])
 
     ## Give password
-    page.fill("//input[@name='password']", "12345678")
+    page.fill("//input[@name='password']", new_student_without_batch_data['password'])
 
     ##Scroll down
 
@@ -106,16 +106,16 @@ def add_student(page, new_admin_data):
     ##--------------Step 2 --------------------------
 
     ## Select guardian first Name
-    page.locator("//input[@name='guardian[0].relationId.firstName']").fill("Mojo")
+    page.locator("//input[@name='guardian[0].relationId.firstName']").fill(new_student_without_batch_data['guardianFirstName'])
 
     ## Select guardian last name
-    page.locator("//input[@name='guardian[0].relationId.lastName']").fill("Ramify")
+    page.locator("//input[@name='guardian[0].relationId.lastName']").fill(new_student_without_batch_data['guardianLastName'])
 
     ## Select guardian contact no
-    page.locator("//input[@name='guardian[0].relationId.contactNo']").fill("01122330001")
+    page.locator("//input[@name='guardian[0].relationId.contactNo']").fill(new_student_without_batch_data['guardianContactNo'])
 
     ##Select guardian email
-    page.locator("//input[@name='guardian[0].relationId.email']").fill("edmojof101@acex.com")
+    page.locator("//input[@name='guardian[0].relationId.email']").fill(new_student_without_batch_data['guardianEmail'])
 
     ## Select relation with student
     page.locator("//div[.='Relation with student']").click()
@@ -124,16 +124,16 @@ def add_student(page, new_admin_data):
     page.wait_for_selector("//li[@role='option']", timeout=1000)
 
     ## Select father
-    page.locator("//li[normalize-space()= 'Father']").click()
+    page.locator(f"//li[normalize-space()= '{new_student_without_batch_data['guardianRelation']}']").click()
 
     ## Select primary guardian
     page.locator("//input[@name='saveCard']").click()
 
     ## Select username
-    page.locator("//input[@name='guardian[0].relationId.userName']").fill("edmojof112")
+    page.locator("//input[@name='guardian[0].relationId.userName']").fill(new_student_without_batch_data['guardianUserName'])
 
     ## Select password
-    page.locator("//input[@name='password']").fill("12345678")
+    page.locator("//input[@name='password']").fill(new_student_without_batch_data['guardianPassword'])
 
     ## Scroll to last
     page.evaluate('''

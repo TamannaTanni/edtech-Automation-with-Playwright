@@ -15,15 +15,15 @@ def add_teacher(page, new_teacher_data):
     ##-------------Step 1: User Information ---------------
 
     # Enter inputs
-    last_name = "Rumman"
-    page.fill("input[name='firstName']", "Teacher")
-    page.locator("input[name='lastName']").fill(last_name)
-    page.fill("input[name='contactNo']", "01122223333")
-    page.fill("input[name='email']", "duce@bigolo.com")
+
+    page.fill("input[name='firstName']", new_teacher_data["first_name"])
+    page.locator("input[name='lastName']").fill(new_teacher_data["last_name"])
+    page.fill("input[name='contactNo']", new_teacher_data["contact_no"])
+    page.fill("input[name='email']", new_teacher_data["email"])
     # Select the female radio button
-    page.check("input[name='gender'][value='female']")
-    page.fill("input[name='userName']", "rumman")
-    page.fill("input[name='password']", "12345678")
+    page.check(f"input[name='gender'][value='{new_teacher_data["gender"]}']")
+    page.fill("input[name='userName']", new_teacher_data["username"])
+    page.fill("input[name='password']", new_teacher_data["password"])
 
     # Click the button with type="submit"
     page.click("button[type='submit']")
@@ -55,14 +55,14 @@ def add_teacher(page, new_teacher_data):
     # click search to verify it's added
     page.locator("//input[@type='text']").click()
 
-    ## sendKeys to thhe search field
-    page.locator("//input[@type='text']").fill("rumman1")
+    ## sendKeys to the search field
+    page.locator("//input[@type='text']").fill(new_teacher_data["last_name"])
 
     # Wait for the search results to appear
-    page.wait_for_selector("//h6[normalize-space()='Teacher Rumman1']", timeout=10000)
+    page.wait_for_selector(f"//h6[normalize-space()='{new_teacher_data["first_name"]} {new_teacher_data["last_name"]}']", timeout=10000)
 
     # # Validate that the teacher appears in the search results
-    search_result = page.locator("//h6[normalize-space()='Teacher Rumman1']").count()
+    search_result = page.locator(f"//h6[normalize-space()='{new_teacher_data["first_name"]} {new_teacher_data["last_name"]}']").count()
     assert search_result > 0, "Teacher not found in the search results"
     print("Teacher validated in the list successfully!")
 

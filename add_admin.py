@@ -16,27 +16,25 @@ def add_admin(page, new_admin_data):
     ##-------------Step 1: User Information ---------------
 
     ## Send values at firstname field
-    page.locator("//input[@name='firstName']").fill("3rdd")
+    page.locator("//input[@name='firstName']").fill(new_admin_data["first_name"])
 
     ## Send values at lastname field
-    page.locator("//input[@name='lastName']").fill("Admin")
+    page.locator("//input[@name='lastName']").fill(new_admin_data["last_name"])
 
     ## Send values for contact number
-    page.locator("//input[@name='contactNo']").fill("01100000001")
+    page.locator("//input[@name='contactNo']").fill(new_admin_data["contact_no"])
 
     ## Send value email field
-    page.locator("//input[@name='email']").fill("3rdd@admin.com")
+    page.locator("//input[@name='email']").fill(new_admin_data["email"])
 
     ## Click gender
-    page.locator("//input[@value='female']").click()
+    page.locator(f"//input[@value='{new_admin_data["gender"]}']").click()
 
     ## Give username
-    username = "3rddAdmin"
-    page.locator("//input[@name='userName']").fill(username)
+    page.locator("//input[@name='userName']").fill(new_admin_data["username"])
 
     ## Give password
-    password = "P@ssw0rd"
-    page.fill("//input[@name='password']", password)
+    page.fill("//input[@name='password']", new_admin_data["password"])
 
     ##Scroll down
     page.evaluate('''
@@ -52,7 +50,7 @@ def add_admin(page, new_admin_data):
 
     ##-------------Step 2: Review---------------
     ## Review and submit
-    page.wait_for_timeout(5000)
+    page.wait_for_timeout(1000)
     page.locator("//button[normalize-space()='Submit']").click()
     page.wait_for_timeout(10000)
 
@@ -72,5 +70,3 @@ def add_admin(page, new_admin_data):
     page.wait_for_timeout(5000)
     page.locator("//button[@aria-label='Close']").click()
 
-    # Return the generated username and password
-    return username, password

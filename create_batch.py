@@ -1,4 +1,3 @@
-import ast
 from datetime import datetime
 
 def create_batch(page, new_batch_data):
