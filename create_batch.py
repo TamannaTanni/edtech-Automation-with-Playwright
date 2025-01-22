@@ -208,7 +208,8 @@ def create_batch(page, new_batch_data):
     page.wait_for_selector("//div[@role='status']")
 
     ## Click to batch list
-    # page.locator("(//button[@aria-label='theme-icon'])[3]").click()
+    ## Navigate to user tab
+    page.locator("(//button[@aria-label='theme-icon'])[4]").click()
 
     # # wait for appear all batch list
     page.wait_for_selector("//button[normalize-space()='Add New Batch']", timeout=10000)

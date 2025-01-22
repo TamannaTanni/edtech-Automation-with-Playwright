@@ -1,12 +1,18 @@
 import pytest
 from playwright.sync_api import sync_playwright
+from conftest import load_csv_data
+from dotenv import load_dotenv
+import os
 from studentadd_kf import add_student
 from add_admin import add_admin
 from add_teacher import add_teacher
 from create_batch import create_batch
-from conftest import load_csv_data
+from login_logout import login, logout
 
 
+
+# Load environment variables from .env file
+load_dotenv()
 
 # def testsuite(login_with_saved_state):
 #         # Login and create a page instance
@@ -17,6 +23,16 @@ from conftest import load_csv_data
 #         # add_teacher(page)
 #         add_student(page)
 #         # create_batch(page)
+
+
+
+def test_login_with_superadmin(browser):
+
+    # Use super admin credentials directly from environment variables
+    superadmin_username = os.getenv("admin_username")
+    superadmin_password = os.getenv("admin_password")
+
+    login(browser,superadmin_username,superadmin_password)
 
 
 
@@ -36,28 +52,6 @@ def test_create_batch_with_csv_data( login_with_saved_state, test_data):
         assert True, f"Service recorded successfully for {test_data['name']}."
 
     except Exception as e:
-        pytest.fail(f"Test failed for {test_data['name']}: {e}")
+        pytest.fail(f"Test failed for {test_data['batch_name']}: {e}")
 
-# def test_logout(login_with_saved_state):
-#         # Login and create a page instance
-#         page = login_with_saved_state
-#
-#         # wait for appear all batch list
-#         page.wait_for_load_state("domcontentloaded")
-#
-#
-#         page.wait_for_selector("//div[@role='button' and @aria-label='user-account']", timeout=10000)
-#
-#         # Code to logout
-#
-#         ##Click on profile
-#         page.locator("//div[@role='button' and @aria-label='user-account']").click()
-#
-#         ##Click on logout button
-#         page.locator("//div[@role='button']//p[text()='Logout']").click()
-#
-#         # Assert that the button is available
-#         assert page.locator("button:has-text('Sign In')").is_visible(), "Sign In button is not visible"
-#
-#         print("Logout is succesfull")
 
