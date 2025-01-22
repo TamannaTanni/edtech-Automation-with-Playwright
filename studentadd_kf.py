@@ -1,7 +1,7 @@
 from datetime import datetime
 
 
-def add_student(page):
+def add_student(page, new_admin_data):
     page.goto("https://3rd-eye-ed-mate-qa.mpower-social.com/batches?batchName=")
 
     page.wait_for_load_state("domcontentloaded")

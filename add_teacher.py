@@ -1,4 +1,4 @@
-def add_teacher(page):
+def add_teacher(page, new_teacher_data):
     page.goto("https://3rd-eye-ed-mate-qa.mpower-social.com/batches?batchName=")
 
     page.wait_for_load_state("domcontentloaded")

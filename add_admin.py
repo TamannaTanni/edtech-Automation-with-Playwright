@@ -1,4 +1,4 @@
-def add_admin(page):
+def add_admin(page, new_admin_data):
 
     page.goto("https://3rd-eye-ed-mate-qa.mpower-social.com/batches?batchName=")
 
@@ -16,7 +16,7 @@ def add_admin(page):
     ##-------------Step 1: User Information ---------------
 
     ## Send values at firstname field
-    page.locator("//input[@name='firstName']").fill("3rd")
+    page.locator("//input[@name='firstName']").fill("3rdd")
 
     ## Send values at lastname field
     page.locator("//input[@name='lastName']").fill("Admin")
@@ -25,16 +25,18 @@ def add_admin(page):
     page.locator("//input[@name='contactNo']").fill("01100000001")
 
     ## Send value email field
-    page.locator("//input[@name='email']").fill("3rd@admin.com")
+    page.locator("//input[@name='email']").fill("3rdd@admin.com")
 
     ## Click gender
     page.locator("//input[@value='female']").click()
 
     ## Give username
-    page.locator("//input[@name='userName']").fill("3rdAdmin")
+    username = "3rddAdmin"
+    page.locator("//input[@name='userName']").fill(username)
 
     ## Give password
-    page.fill("//input[@name='password']", "P@ssw0rd")
+    password = "P@ssw0rd"
+    page.fill("//input[@name='password']", password)
 
     ##Scroll down
     page.evaluate('''
@@ -69,3 +71,6 @@ def add_admin(page):
     ##  Close the success message
     page.wait_for_timeout(5000)
     page.locator("//button[@aria-label='Close']").click()
+
+    # Return the generated username and password
+    return username, password
