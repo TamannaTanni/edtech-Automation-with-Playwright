@@ -1,6 +1,7 @@
 # To view saved trace file: playwright show-trace {name of the tracefile with ext & path}
 
 # To run specific pytest file in headed way: pytest -s --headed {filename with ext & path}
+                 for generating html report: pytest -s --headed {filename with ext & path} --html=report\testreport.html
 
 # Set environment variable to enable debug mood, run the command in terminal: set PWDEBUG=1
 

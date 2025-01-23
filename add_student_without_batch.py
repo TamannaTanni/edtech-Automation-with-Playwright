@@ -175,6 +175,7 @@ def add_student_without_batch(page, new_student_without_batch_data):
     ##  Close the success message
     page.wait_for_timeout(1000)
     page.locator("//button[@aria-label='Close']").click()
+    page.wait_for_timeout(1000)
 
     
 

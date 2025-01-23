@@ -49,7 +49,8 @@ def login(browser, username, password):
     save_auth_state(context, token)
 
     # Keep the browser open
-    input("Press Enter once you're ready to proceed...")
+    # input("Press Enter once you're ready to proceed...")
+    page.wait_for_timeout(3000)
     browser.close()
 
 def logout(login_with_saved_state):
@@ -57,8 +58,10 @@ def logout(login_with_saved_state):
         page = login_with_saved_state
 
         # wait for appear all batch list
+        page.wait_for_timeout(3000)
         page.wait_for_load_state("domcontentloaded")
 
+        page.wait_for_timeout(10000)
 
         page.wait_for_selector("//div[@role='button' and @aria-label='user-account']", timeout=10000)
 

@@ -52,7 +52,7 @@ def add_admin(page, new_admin_data):
     ## Review and submit
     page.wait_for_timeout(1000)
     page.locator("//button[normalize-space()='Submit']").click()
-    page.wait_for_timeout(10000)
+    page.wait_for_timeout(1000)
 
     ##Get the message
     message_text = page.text_content("//p[@id='alert-dialog-description']")
@@ -69,4 +69,5 @@ def add_admin(page, new_admin_data):
     ##  Close the success message
     page.wait_for_timeout(5000)
     page.locator("//button[@aria-label='Close']").click()
+    page.wait_for_timeout(5000)
 

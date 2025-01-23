@@ -227,8 +227,6 @@ def create_batch(page, new_batch_data):
     assert search_result > 0, "Batch not found in the search results"
     print("Batch validated in the list successfully!")
 
-    return batch_name
-
 
 
 

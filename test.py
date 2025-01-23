@@ -14,18 +14,13 @@ from login_logout import login, logout
 # Load environment variables from .env file
 load_dotenv()
 
-# Global variables to store new admin credentials
+# Global variables to store credentials and information
 new_admin_credentials = {}
-
-# Global variables to store new teacher credentials
 new_teacher_credentials = {}
-
-# Global variables to store new student credentials
-new_student_credentials = {}
-
-# Global variables to store new batch information
+new_student_credentials = []
 new_batch_information = {}
 
+# @pytest.mark.skip(reason="already logged")
 def test_login_with_superadmin(browser):
 
     # Use super admin credentials directly from environment variables
@@ -34,6 +29,9 @@ def test_login_with_superadmin(browser):
 
     login(browser,superadmin_username,superadmin_password)
 
+
+# @pytest.mark.skip(reason="admin already added")
+@pytest.mark.dependency(name="add_admin")
 @pytest.mark.parametrize("test_data", load_csv_data("new_admin_data.csv"))
 def test_add_admin_with_csv_data(login_with_saved_state, test_data):
     """
@@ -41,8 +39,10 @@ def test_add_admin_with_csv_data(login_with_saved_state, test_data):
     """
     global new_admin_credentials
     try:
+
         # Login and create a page instance
         page = login_with_saved_state
+        page.wait_for_timeout(3000)
 
         # Perform test cases sequentially
         add_admin(page, test_data)
@@ -52,13 +52,18 @@ def test_add_admin_with_csv_data(login_with_saved_state, test_data):
         new_admin_credentials['password'] = test_data["password"]
 
         # Additional validation can be added here if applicable
-        assert True, f"Admin created successfully for {test_data['admin_name']}."
+        assert True, f"Admin created successfully for {test_data['first_name']}."
 
     except Exception as e:
         pytest.fail(f"Test failed for {test_data['first_name']}: {e}")
 
     logout(login_with_saved_state)
 
+
+
+# @pytest.mark.skip(reason="already logged in")
+@pytest.mark.dependency(name="admin_login")
+@pytest.mark.dependency(depends=["add_admin"])
 def test_login_with_newadmin(browser):
     """
         Test login with the new admin credentials.
@@ -74,6 +79,8 @@ def test_login_with_newadmin(browser):
     login(browser, admin_username, admin_password)
 
 
+# @pytest.mark.skip(reason="teacher already added")
+@pytest.mark.dependency(depends=["admin_login"])
 @pytest.mark.parametrize("test_data", load_csv_data("new_teacher_data.csv"))
 def test_add_teacher_with_csv_data(login_with_saved_state, test_data):
     """
@@ -99,6 +106,9 @@ def test_add_teacher_with_csv_data(login_with_saved_state, test_data):
         pytest.fail(f"Test failed for {test_data['first_name']}: {e}")
 
 
+
+# @pytest.mark.skip(reason="student already added")
+@pytest.mark.dependency(depends=["admin_login"])
 @pytest.mark.parametrize("test_data", load_csv_data("new_student_without_batch_data.csv"))
 def test_add_student_with_csv_data(login_with_saved_state, test_data):
     """
@@ -113,16 +123,17 @@ def test_add_student_with_csv_data(login_with_saved_state, test_data):
         add_student_without_batch(page, test_data)
 
         # Save the credentials in a global variable
-        new_student_credentials[f'student {test_data["name"]}'] = test_data["name"]
+        new_student_credentials.append(test_data["firstName"])
 
         # Additional validation can be added here if applicable
-        assert True, f"Student created successfully for {test_data['student_name']}."
+        assert True, f"Student created successfully for {test_data['firstName']}."
 
     except Exception as e:
-        pytest.fail(f"Test failed for {test_data['student_name']}: {e}")
+        pytest.fail(f"Test failed for {test_data['firstName']}: {e}")
+    print(new_student_credentials)
 
 
-
+@pytest.mark.dependency(depends=["admin_login"])
 @pytest.mark.parametrize("test_data", load_csv_data("new_batch_data.csv"))
 def test_create_batch_with_csv_data( login_with_saved_state, test_data):
     """
@@ -136,7 +147,7 @@ def test_create_batch_with_csv_data( login_with_saved_state, test_data):
         page = login_with_saved_state
 
         # Perform test cases sequentially
-        batch_name, teacher_name = create_batch(page, test_data)
+        create_batch(page, test_data)
 
         # Save the credentials in a global variable
         new_batch_information[test_data["batch_name"]] = {
