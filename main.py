@@ -1,6 +1,6 @@
 import pytest
 from playwright.sync_api import sync_playwright
-from add_student_without_batch import add_student
+from add_student_without_batch import add_student_without_batch
 from add_admin import add_admin
 from add_teacher import add_teacher
 from create_batch import create_batch

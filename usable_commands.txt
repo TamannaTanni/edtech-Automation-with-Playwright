@@ -12,6 +12,9 @@
 # pytest mark
     @pytest.mark.skip(reason="tell the reason here") --> to skip a test
     @pytest.mark.xfail(reason="tell the reason here") --> to mark as already known failed test
+    @pytest.mark.skip_browser("browser_name") --> to skip for a browser
+    @pytest.mark.only_browser("browser_name") --> to run only for specific browser
+
 
 # pytest mark cli commands
     -k --> to run the test using keyword
@@ -20,10 +23,72 @@
     --base-url --> to provide base url from command line
     --tracing -->
     --slowmo -->
+    -v --> short form of verbose; for details view
+    -s --> to enable input & output
+
 
 
 
 # pytest fixture:
-    @pytest.fixture(scope="function") --> will run the fixture for every test
-    @pytest.fixture(scope="scope") --> will run the fixture once and all the tests will be executed
+    @pytest.fixture(scope="function") --> will run the fixture for every test; is defined by default
+    @pytest.fixture(scope="scope") --> will run the fixture in testing session once and all the tests will be executed
+    @pytest.fixture(scope="scope") --> will run for every module
+
+    - running the fixture without specifying in every test by defining autouse argument/hook as True in the fixture
+
+    - function scope fixture
+        page fixure,
+        browsercontext fixture
+
+    - session scope fixture
+        playwright
+        browser
+        browser_type
+        browser_name
+        browser_channel
+        is_firefox: bool
+        is_chromium: bool
+        is_webkit: bool
+
+
+
+
+
+# pytest config
+    - Not to providing flags & options everytime to run tests, need to specify a pytest initialization configuration file; in the initialization file create a block and inside the block will have key and values; blocks will be written in square brackets
+    - create a file named pytest.ini in the root directory
+    - create [pytest] block
+    - in addopts key specify the flags # addopts means add options
+    example: addopts = --headed --slowmo=500 --browser=firefox # no space before or after equals
+
+
+
+
+
+# Run the code from cmd
+    activate virtual env
+    run python command
+
+    from playwright.sync_api import sync_playwright
+    playwright = sync_playwright().start()
+    browser = playwright.chromium.launch(headless = False, slow_mo = 500)
+    page = browser.new_page()
+    page.goto("url")
+    browse.close()
+    playwright.stop()
+    exit()
+
+# Type hinting in python
+    variable_name : variableDataType = value
+    list : list[listDataType] = []
+    dict : dict [ dictKeyDataType, dictValueDataType] = {}
+    def method( variable_name : variableDataType ) -> returnDataType:
+
+
+# difference between using return and yield is returning will terminate the function with sending the value, no codes after return statement will exicute; but yielding will send the value with retaining the function state, allowing it to resume from where it left off, codes after yield statement will be executed
+
+    
+
+
+
 
